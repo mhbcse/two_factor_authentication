@@ -44,7 +44,7 @@ module Devise
             drift_ahead: drift, drift_behind: drift, after: totp_timestamp
           )
           return false unless new_timestamp
-          self.totp_timestamp = new_timestamp
+          self.totp_timestamp = Time.at(new_timestamp)
           true
         end
 
@@ -95,7 +95,7 @@ module Devise
           # ROTP gem since version 5 to version 5.1
           # at version 5.1 ROTP gem reinstates.
           # Details: https://github.com/mdp/rotp/blob/master/CHANGELOG.md#510
-          ROTP::Base32.try(:random) || ROTP::Base32.random_base32
+          ROTP::Base32.random_base32
         end
 
         def create_direct_otp(options = {})
